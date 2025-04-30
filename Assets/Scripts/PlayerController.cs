@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private CharacterController controller;
-    private Vector3 dir;
+    private CharacterController controller; //motion control component
+    private Vector3 dir;                    //movement direction
     [SerializeField] private int speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float gravity;

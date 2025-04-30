@@ -12,13 +12,12 @@ public class ChunkPlacer : MonoBehaviour
     void Start()
     {
         spawnedChunks.Add(FirstChunk);
-        // —разу спавним второй чанк при старте
         SpawnChunk();
     }
 
     void Update()
     {
-        // ≈сли игрок приближаетс€ к концу предпоследнего чанка, спавним новый
+        // ≈сли игрок приближаетс€ к концу предпоследнего чанка, спавним новый чанк
         if (spawnedChunks.Count >= 2 &&
             Player.position.z > spawnedChunks[spawnedChunks.Count - 2].End.position.z - 60)
         {

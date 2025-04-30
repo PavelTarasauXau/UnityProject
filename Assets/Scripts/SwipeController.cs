@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SwipeController : MonoBehaviour
@@ -10,8 +8,40 @@ public class SwipeController : MonoBehaviour
 
     private void Update()
     {
+        // Сбрасываем все флаги в начале кадра
         tap = swipeDown = swipeUp = swipeLeft = swipeRight = false;
-        #region ПК-версия
+
+        // Обработка клавиатуры (добавлено)
+        HandleKeyboardInput();
+
+        // Оригинальная обработка тач/свайпов
+        HandleTouchInput();
+    }
+
+    private void HandleKeyboardInput()
+    {
+        // Движение влево (A или стрелка влево)
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            swipeLeft = true;
+        }
+
+        // Движение вправо (D или стрелка вправо)
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            swipeRight = true;
+        }
+
+        // Прыжок (пробел или стрелка вверх)
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            swipeUp = true;
+        }
+    }
+
+    private void HandleTouchInput()
+    {
+        #region ПК-версия (мышь)
         if (Input.GetMouseButtonDown(0))
         {
             tap = true;
@@ -25,25 +55,24 @@ public class SwipeController : MonoBehaviour
         }
         #endregion
 
-        //Просчитать дистанцию
+        // Просчитать дистанцию
         swipeDelta = Vector2.zero;
         if (isDraging)
         {
-            if (Input.touches.Length < 0)
+            if (Input.touches.Length > 0)
                 swipeDelta = Input.touches[0].position - startTouch;
             else if (Input.GetMouseButton(0))
                 swipeDelta = (Vector2)Input.mousePosition - startTouch;
         }
 
-        //Проверка на пройденность расстояния
+        // Проверка на пройденность расстояния
         if (swipeDelta.magnitude > 100)
         {
-            //Определение направления
+            // Определение направления
             float x = swipeDelta.x;
             float y = swipeDelta.y;
             if (Mathf.Abs(x) > Mathf.Abs(y))
             {
-
                 if (x < 0)
                     swipeLeft = true;
                 else
@@ -51,7 +80,6 @@ public class SwipeController : MonoBehaviour
             }
             else
             {
-
                 if (y < 0)
                     swipeDown = true;
                 else
@@ -60,7 +88,6 @@ public class SwipeController : MonoBehaviour
 
             Reset();
         }
-
     }
 
     private void Reset()
