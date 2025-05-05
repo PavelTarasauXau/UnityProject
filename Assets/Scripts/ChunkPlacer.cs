@@ -41,10 +41,10 @@ public class ChunkPlacer : MonoBehaviour
         spawnedChunks.Add(newChunk);
 
         // Удаляем старые чанки, если их больше 3 (чтобы всегда было 2 впереди + текущий)
-        if (spawnedChunks.Count > 5)
+        /*if (spawnedChunks.Count > 5)
         {
             Destroy(spawnedChunks[0].gameObject);
             spawnedChunks.RemoveAt(0);
-        }
+        }*/
     }
 }
