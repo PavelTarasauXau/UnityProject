@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float gravity;
+    [SerializeField] private GameObject losePanel;
 
     private int lineToMove = 1;
     public float lineDistance = 4;
@@ -48,7 +49,7 @@ public class PlayerController : MonoBehaviour
             return;
         Vector3 diff = targetPosition - transform.position;
         Vector3 moveDir = diff.normalized * 25 * Time.deltaTime;
-        if(moveDir.sqrMagnitude < diff.sqrMagnitude)
+        if (moveDir.sqrMagnitude < diff.sqrMagnitude)
             controller.Move(moveDir);
         else
             controller.Move(diff);
@@ -64,5 +65,14 @@ public class PlayerController : MonoBehaviour
         dir.z = speed;
         dir.y += gravity * Time.fixedDeltaTime;
         controller.Move(dir * Time.fixedDeltaTime);
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.tag == "obstacle")
+        {
+            losePanel.SetActive(true);
+            Time.timeScale = 0;
+        }
     }
 }
