@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerController : MonoBehaviour
 {
     private CharacterController controller; //motion control component
@@ -10,12 +11,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private float gravity;
 
+    [SerializeField] private Animator anim;
+    private bool isJumping;
+
     private int lineToMove = 1;
     public float lineDistance = 4;
-
+        
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -38,6 +43,16 @@ public class PlayerController : MonoBehaviour
                 Jump();
         }
 
+        if(controller.isGrounded && !isJumping)
+        {
+            anim.SetBool("isRunning", true);
+        }
+        else
+        {
+            anim.SetBool("isRunning", false);
+        }
+            
+
         Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
         if (lineToMove == 0)
             targetPosition += Vector3.left * lineDistance;
@@ -57,6 +72,7 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         dir.y = jumpForce;
+        anim.SetTrigger("isJumping");
     }
 
     void FixedUpdate()
